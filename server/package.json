@@ -1,0 +1,44 @@
+{
+  "name": "@omrprks/template-node",
+  "version": "1.0.1",
+  "private": false,
+  "description": "Template containing commonly used config and package dependencies for project quickstarts",
+  "repository": "github:omrprks/template-node.git",
+  "author": "Omar Parkes <7733575+omrprks@users.noreply.github.com> (https://github.com/omrprks)",
+  "license": "MIT",
+  "bugs": "https://github.com/omrprks/template-node/issues",
+  "homepage": "https://github.com/omrprks/template-node#readme",
+  "keywords": [
+    "node",
+    "template"
+  ],
+  "scripts": {
+    "commit": "git-cz",
+    "start": "cross-env NODE_ENV=production node dist/index.js",
+    "build": "cross-env NODE_ENV=production tsc",
+    "dev": "ts-node-dev src/index.ts",
+    "lint": "eslint --ext .ts,.tsx src",
+    "lint:fix": "npm run lint -- --fix",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^9.0.1",
+    "@commitlint/config-conventional": "^9.0.1",
+    "@types/node": "^14.0.18",
+    "@typescript-eslint/eslint-plugin": "^3.6.0",
+    "@typescript-eslint/parser": "^3.6.0",
+    "commitizen": "^4.1.2",
+    "cross-env": "^7.0.2",
+    "cz-conventional-changelog": "^3.2.0",
+    "eslint": "^7.4.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-react": "^7.20.3",
+    "eslint-plugin-react-hooks": "^4.0.5",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.11",
+    "ts-node-dev": "^1.0.0-pre.50",
+    "typescript": "^3.9.6"
+  }
+}
