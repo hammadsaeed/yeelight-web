@@ -2,6 +2,17 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import button from './stories/1-Button.stories'
+import { changeColorReq, changeLight } from './components/requests'
+const url = 'http://localhost:8000'
+
+const sendRequest = (incomingReq: string) => {
+  // const sendReq = changeColorReq(incomingReq);
+  // console.log(sendReq);
+  changeLight(`${url}/changeLight`, { incomingReq })
+  .then(data => {
+    console.log(data); // JSON data parsed by `data.json()` call
+  });
+}
 
 function App() {
   return (
@@ -11,7 +22,7 @@ function App() {
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
-        <button> fsf</button>
+        <button onClick={() => sendRequest('Changing Color')} > fsf</button>
         <a
           className="App-link"
           href="https://reactjs.org"
