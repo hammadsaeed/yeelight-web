@@ -8,15 +8,15 @@ import express, {
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import {
-  // Discover,
-  // IDevice,
+  Discover,
+  IDevice,
   Color,
   Yeelight,
 } from 'yeelight-awesome';
 
 const app: Application = express();
 
-const device = {
+const myDevice = {
   port: 55443,
   host: '192.168.1.2',
 };
@@ -29,12 +29,32 @@ app.post('/changeLight', (req: Request) => {
   console.log('triggered');
   console.log(req.body);
 
-  const yeelight = new Yeelight({ lightIp: device.host, lightPort: device.port });
-  yeelight.on('connected', () => {
-    yeelight.setRGB(new Color(66, 87, 23), 'smooth', 5000);
+  const yeelight = new Yeelight({ lightIp: myDevice.host, lightPort: myDevice.port });
+  yeelight.connect().then((l) => {
+    l.setRGB(new Color(66, 87, 23), 'smooth', 5000).then(() => {
+      l.disconnect();
+      console.log('Color has been set');
+    });
+  }).catch((e) => {
+    console.log(e.message);
   });
-  yeelight.connect();
 });
+
+app.post('/discoverLight', (req: Request) => {
+  console.log('triggered');
+  console.log(req.body);
+
+  // const yeelight = new Yeelight({ lightIp: device.host, lightPort: device.port });
+
+  const discover = new Discover({});
+
+  discover.scanByIp().then((devices) => console.log('scan finished: ', devices));
+
+  discover.on('deviceAdded', (device: IDevice) => {
+    console.log('found device', device);
+  });
+});
+
 const port = process.env.PORT ?? 8000;
 
 app.listen(port, () => {
