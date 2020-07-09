@@ -2,7 +2,8 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import button from './stories/1-Button.stories'
-import { discoverLight, changeLight } from './components/requests'
+import { ColorController } from './components/colorController'
+import { changeBrightness, changeLight } from './components/requests'
 const url = 'http://localhost:8000'
 
 const sendColorChangeRequest = (incomingReq: string) => {
@@ -12,13 +13,12 @@ const sendColorChangeRequest = (incomingReq: string) => {
   });
 }
 
-const sendDiscoverRequest = (incomingReq: string) => {
-  discoverLight(`${url}/discoverLight`, { incomingReq })
+const changeBrightnessRequest = (incomingReq: string) => {
+  changeBrightness(`${url}/setBrightness`, { incomingReq })
   .then(data => {
     console.log(data);
   });
 }
-
 
 function App() {
   return (
@@ -28,8 +28,9 @@ function App() {
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
+        <ColorController />
         <button onClick={() => sendColorChangeRequest('Changing Color')} > Change</button>
-        <button onClick={() => sendDiscoverRequest('Discover')} > Discover</button>
+        <button onClick={() => changeBrightnessRequest('Discover')} > Discover</button>
         <a
           className="App-link"
           href="https://reactjs.org"

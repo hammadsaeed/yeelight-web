@@ -27,29 +27,27 @@ export const changeColorReq = (incomingReq: string): any => {
 }
 
 export async function changeLight(url = '', data = {}) {
-  // Default options are marked with *
   const response = await fetch(url, {
     method: 'POST',
     mode: 'cors',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(data) // body data type must match "Content-Type" header
+    body: JSON.stringify(data)
   });
-  return response.json(); // parses JSON response into native JavaScript objects
+  return response.json();
 }
 
-export async function discoverLight(url = '', data = {}) {
-  // Default options are marked with *
+export async function changeBrightness(url = '', data = {}) {
   const response = await fetch(url, {
     method: 'POST',
     mode: 'cors',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(data) // body data type must match "Content-Type" header
+    body: JSON.stringify(data)
   });
-  return response.json(); // parses JSON response into native JavaScript objects
+  return response.json();
 }
 
 
