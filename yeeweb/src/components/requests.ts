@@ -24,14 +24,22 @@ export const changeColorReq = (incomingReq: string): any => {
   })
   .then(() => alert('Thank you for subscribing!'))
   .catch((error) => alert('ERRRR!'));
-  // .then(response => console.log(response.json()))
-  // .catch((error) => {console.log(error)})
-//     console.log(err)
-//   };
-//   // return getResponse
 }
 
 export async function changeLight(url = '', data = {}) {
+  // Default options are marked with *
+  const response = await fetch(url, {
+    method: 'POST',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data) // body data type must match "Content-Type" header
+  });
+  return response.json(); // parses JSON response into native JavaScript objects
+}
+
+export async function discoverLight(url = '', data = {}) {
   // Default options are marked with *
   const response = await fetch(url, {
     method: 'POST',
