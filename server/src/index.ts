@@ -1,9 +1,6 @@
 /* eslint linebreak-style: ["error", "windows"] */
 import express, {
   Application,
-  // Request,
-  // Response,
-  // NextFunction,
 } from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
@@ -25,15 +22,45 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
-app.post('/changeLight', (req: Request) => {
-  console.log('triggered');
-  console.log(req.body);
+// interface IncomingRequest {
+//   r: number;
+//   g: number;
+//   b: number;
+//   a: number,
+// }
 
+// "smooth" | "sudden"
+
+// ping
+// yeelight.once("ping", (data) => {
+//   console.log("commandSuccesss fire everytime the command finish", data);
+// });
+
+app.post('/changeLight', (req: Request) => {
+  const { r, g, b } = req.body as any;
+  if (r === undefined || g === undefined || b === undefined) throw new Error('No Color Found');
+  console.log(r, g, b);
   const yeelight = new Yeelight({ lightIp: myDevice.host, lightPort: myDevice.port });
-  yeelight.connect().then((l) => {
-    l.setRGB(new Color(66, 87, 23), 'smooth', 5000).then(() => {
-      l.disconnect();
+
+  yeelight.connect().then((light) => {
+    light.setRGB(new Color(r, g, b), 'smooth', 2000).then(() => {
+      light.disconnect();
       console.log('Color has been set');
+    });
+  }).catch((e) => {
+    console.log(e.message);
+  });
+});
+
+app.post('/setBrightness', (req: Request) => {
+  console.log(req.body);
+  const { currentBrightness } = req.body as any;
+  if (currentBrightness === undefined) throw new Error('No Color Found');
+  const yeelight = new Yeelight({ lightIp: myDevice.host, lightPort: myDevice.port });
+  yeelight.connect().then((light) => {
+    light.setBright(80, 'smooth', 1000).then(() => {
+      light.disconnect();
+      console.log(`Brightness has been set to: ${currentBrightness}`);
     });
   }).catch((e) => {
     console.log(e.message);
@@ -43,8 +70,6 @@ app.post('/changeLight', (req: Request) => {
 app.post('/discoverLight', (req: Request) => {
   console.log('triggered');
   console.log(req.body);
-
-  // const yeelight = new Yeelight({ lightIp: device.host, lightPort: device.port });
 
   const discover = new Discover({});
 
@@ -60,24 +85,3 @@ const port = process.env.PORT ?? 8000;
 app.listen(port, () => {
   console.log(`Listening on http://localhost:${port}`);
 });
-
-// const requestListener: RequestListener = (_request, response) => {
-//   response.writeHead(200, {
-//     'content-type': 'application/json',
-//   });
-
-//   response.end(JSON.stringify({
-//     status: 'ok',
-//     message: 'OK',
-//     data: {},
-//   }));
-// };
-
-// const server = http.createServer(requestListener);
-
-// server.listen(port, () => console.log(`Listening on http://localhost:${port}`));
-
-// app.get('/changeLight', (req: Request, res: Response, _next: NextFunction) => {
-//   console.log('triggered');
-//   console.log(req);
-// });
