@@ -1,46 +1,32 @@
 import React from 'react';
 import logo from './logo.svg';
-import './App.css';
-import button from './stories/1-Button.stories'
 import { ColorController } from './components/colorController'
-import { changeBrightness, changeLight } from './components/requests'
-const url = 'http://localhost:8000'
+import { Heading } from './components/heading'
+import { Background } from './components/background'
+import { makeStyles } from '@material-ui/styles';
+import './App.css'
 
-const sendColorChangeRequest = (incomingReq: string) => {
-  changeLight(`${url}/changeLight`, { incomingReq })
-  .then(data => {
-    console.log(data);
-  });
-}
-
-const changeBrightnessRequest = (incomingReq: string) => {
-  changeBrightness(`${url}/setBrightness`, { incomingReq })
-  .then(data => {
-    console.log(data);
-  });
-}
+const useStyles = makeStyles({
+  root: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    top: 0,
+    left: 0,
+    fontFamily: '"HelveticaNeue"'
+  },
+});
 
 function App() {
+  const classes = useStyles();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
+      <div className={classes.root}>
+        <Background/>
+
+        <Heading />
+        {/* <img src={logo} className="App-logo" alt="logo" /> */}
         <ColorController />
-        <button onClick={() => sendColorChangeRequest('Changing Color')} > Change</button>
-        <button onClick={() => changeBrightnessRequest('Discover')} > Discover</button>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          First commit
-        </a>
-      </header>
-    </div>
+      </div>
   );
 }
 
