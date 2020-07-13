@@ -52,6 +52,31 @@ app.post('/changeLight', (req: Request) => {
   });
 });
 
+app.post('/getStatus', (req: Request) => {
+  const { parms } = req.body as any;
+  if (parms === undefined) throw new Error('No Color Found');
+
+  const yeelight = new Yeelight({ lightIp: myDevice.host, lightPort: myDevice.port });
+  // yeelight.once('set_name', (data) => {
+  //   console.log('Can also capture the event data when it ran successful', data);
+  // });
+
+  yeelight.connect().then((light) => {
+    const getPowerStatus = light.getProperty(parms);
+    console.log(getPowerStatus);
+  }).catch((e) => {
+    console.log(e);
+  });
+  // yeelight.connect().then((light) => {
+  //   light.getProperty(parms).then((data) => {
+  //     console.log(`Brightness has been set to: ${data}`);
+  //     light.disconnect();
+  //   });
+  // }).catch((e) => {
+  //   console.log(e);
+  // });
+});
+
 app.post('/setBrightness', (req: Request) => {
   console.log(req.body);
   const { currentBrightnessSlide } = req.body as any;
@@ -63,7 +88,7 @@ app.post('/setBrightness', (req: Request) => {
       console.log(`Brightness has been set to: ${currentBrightnessSlide}`);
     });
   }).catch((e) => {
-    console.log(e.message);
+    console.log(e);
   });
 });
 
