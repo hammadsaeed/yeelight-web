@@ -2,7 +2,6 @@ import React, {ReactElement} from 'react';
 import { Slider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
-
 interface props {
   currentBrightness: number;
   handleBrightnessChange: any;
@@ -16,15 +15,16 @@ const useStyles = makeStyles({
 export const BrightnessPicker = (props: props): ReactElement => {
   const { currentBrightness, handleBrightnessChange } = props;
   const classes = useStyles();
-  console.log(currentBrightness);
+
   const valuetext = () => {
-    return `${currentBrightness}`;
+    console.log()
+    return `${currentBrightness}C`;
   }
 
   return (
     <div className={classes.root} style={{padding: '1%'}}>
       <Slider
-        defaultValue={currentBrightness}
+        defaultValue={0}
         getAriaValueText={valuetext}
         onChange={handleBrightnessChange}
         aria-labelledby="continuous-slider"

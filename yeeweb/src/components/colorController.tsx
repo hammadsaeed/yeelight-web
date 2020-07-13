@@ -1,36 +1,61 @@
 import React, {ReactElement, useState} from 'react';
-import { ColorPicker } from './colorPicker';
-import { BrightnessPicker } from './brightnessController';
-import { changeBrightness, changeLight } from './requests';
+import { ColorPicker } from './colorPicker/';
+import { colorData } from '../index.d'
+import { Button } from '@material-ui/core';
+import { sendComand } from './requests';
+import { makeStyles } from '@material-ui/styles';
 const url = 'http://localhost:8000'
 
+interface IncomingProps {
+  handleColorChange: any,
+  handleColorChangeSaturation:  any,
+  currentHexColor: string,
+  currentColor: colorData,
+  handleBrightnessChange: any,
+  currentBrightness: number,
+}
 
-export const ColorController = (): ReactElement => {
-  const [currentColor, setCurrentColor] = useState('');
-  const [currentBrightness, setCurrentBrightness] = useState<number>(30);
+const useStyles = makeStyles({
+  buttonContainer: {
+    position: 'absolute',
+    width: '45%',
+    height: '20%',
+    bottom: '7%',
+    left: '7%',
+    background: '#FEFEFE',
+    boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+    borderRadius: '50px',
+  },
+});
 
-  const handleColorChange = (color: any) => {
-    console.log(color)
-    setCurrentColor(color.hex)
-    changeLight(`${url}/changeLight`, color.rgb)
-  }
 
-  const handleBrightnessChange = (event : any, currentBrightnessSlide: number) => {
-    changeBrightness(`${url}/setBrightness`, {currentBrightnessSlide});
-    setCurrentBrightness(currentBrightnessSlide)
-    console.log(`Setting brightness to: ${currentBrightnessSlide}`)
+export const ColorController = (props: IncomingProps): ReactElement => {
+  const { handleColorChangeSaturation, handleColorChange, currentHexColor, currentColor, handleBrightnessChange, currentBrightness} = props
+  const [powerStatus, setCurrentPowerStatus] = useState(false);
+
+  const classes = useStyles();
+
+  const togglePowerState = () => {
+    const newStatus = !powerStatus
+    const status = sendComand(`${url}/setPower`, {powerStatus: newStatus});
+    console.log(newStatus)
+    setCurrentPowerStatus(newStatus)
+    console.log(status)
   }
 
   return (
     <>
       <ColorPicker
         handleColorChange={handleColorChange}
+        currentHexColor={currentHexColor}
         currentColor={currentColor}
-      />
-      <BrightnessPicker
+        handleColorChangeSaturation={handleColorChangeSaturation}
         currentBrightness={currentBrightness}
         handleBrightnessChange={handleBrightnessChange}
       />
+      <div className={classes.buttonContainer}>
+        <Button onClick={togglePowerState} variant="contained" color="primary" > POWER: {powerStatus ? 'ON': 'OFF'} </Button>
+      </div>
     </>
   )
 }

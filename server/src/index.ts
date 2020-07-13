@@ -52,15 +52,55 @@ app.post('/changeLight', (req: Request) => {
   });
 });
 
+app.post('/getStatus', (req: Request) => {
+  const { parms } = req.body as any;
+  if (parms === undefined) throw new Error('No Color Found');
+
+  const yeelight = new Yeelight({ lightIp: myDevice.host, lightPort: myDevice.port });
+  // yeelight.once('set_name', (data) => {
+  //   console.log('Can also capture the event data when it ran successful', data);
+  // });
+
+  yeelight.connect().then((light) => {
+    const getPowerStatus = light.getProperty(parms);
+    console.log(getPowerStatus);
+  }).catch((e) => {
+    console.log(e);
+  });
+  // yeelight.connect().then((light) => {
+  //   light.getProperty(parms).then((data) => {
+  //     console.log(`Brightness has been set to: ${data}`);
+  //     light.disconnect();
+  //   });
+  // }).catch((e) => {
+  //   console.log(e);
+  // });
+});
+
 app.post('/setBrightness', (req: Request) => {
   console.log(req.body);
-  const { currentBrightness } = req.body as any;
-  if (currentBrightness === undefined) throw new Error('No Color Found');
+  const { currentBrightnessSlide } = req.body as any;
+  if (currentBrightnessSlide === undefined) throw new Error('No Color Found');
   const yeelight = new Yeelight({ lightIp: myDevice.host, lightPort: myDevice.port });
   yeelight.connect().then((light) => {
-    light.setBright(80, 'smooth', 1000).then(() => {
+    light.setBright(parseInt(currentBrightnessSlide, 10), 'smooth', 500).then(() => {
       light.disconnect();
-      console.log(`Brightness has been set to: ${currentBrightness}`);
+      console.log(`Brightness has been set to: ${currentBrightnessSlide}`);
+    });
+  }).catch((e) => {
+    console.log(e);
+  });
+});
+
+app.post('/setPower', (req: Request) => {
+  console.log(req.body);
+  const { powerStatus } = req.body as any;
+  if (powerStatus === undefined) throw new Error('No Color Found');
+  const yeelight = new Yeelight({ lightIp: myDevice.host, lightPort: myDevice.port });
+  yeelight.connect().then((light) => {
+    light.setPower(powerStatus, 'smooth', 500).then(() => {
+      light.disconnect();
+      console.log(`Power Status: ${powerStatus}`);
     });
   }).catch((e) => {
     console.log(e.message);
