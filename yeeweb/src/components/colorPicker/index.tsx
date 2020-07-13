@@ -1,17 +1,20 @@
 import React, {ReactElement, } from 'react';
-import { CirclePicker, HuePicker  } from 'react-color';
-import { colorData } from '../index.d'
-import { MyPointer } from './pointer'
+import { CirclePicker, HuePicker } from 'react-color';
+import { colorData } from '../../index.d'
 import { EditableInput, Saturation  } from 'react-color/lib/components/common'
-import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import { BrightnessPicker } from '../brightnessController';
+import { MyPointer } from './pointer'
 
 interface props {
   handleColorChange: any;
   currentHexColor: string;
   currentColor: colorData;
   handleColorChangeSaturation: any;
+  currentBrightness: number;
+  handleBrightnessChange: any;
 }
+
 const useStyles = makeStyles({
   root: {
     position: 'absolute',
@@ -22,18 +25,8 @@ const useStyles = makeStyles({
     background: '#FEFEFE',
     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
     borderRadius: '50px',
-  },
-  heading: {
-    fontSize: '12vw',
-    position: 'relative',
-    margin: 0,
-    top: '15%',
-    left: '10%',
-    fontStyle: 'normal',
-    fontWeight: 500,
-    lineHeight: '10vw',
-    letterSpacing: '10px',
-    color: '#FFFFFF',
+    fontFamily: '"HelveticaNeue"',
+    letterSpacing: 2,
   },
   gridRoot: {
     flexGrow: 1,
@@ -41,25 +34,41 @@ const useStyles = makeStyles({
   saturationBox: {
     position: 'absolute',
     width: '45%',
-    height: '80%',
+    height: '75%',
+    textAlign: 'center',
     top: '5%',
-    left: '7%',
-    borderRadius: '100%',
+    left: '5%',
+  },
+  compHeading: {
+    lineHeight: '0.5vw',
+    fontWeight: 500,
+    color: '#444444',
   },
   colorSettingsContainer: {
     left: '55%',
     position: 'relative',
   },
+  editableColor: {
+    padding: '5%',
+  }
 });
 
 export const ColorPicker = (props: props): ReactElement => {
-  const { handleColorChange, currentColor, currentHexColor, handleColorChangeSaturation } = props;
+  const {
+    handleColorChange,
+    currentColor,
+    currentHexColor,
+    handleColorChangeSaturation,
+    currentBrightness,
+    handleBrightnessChange,
+  } = props;
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
       <div className={classes.saturationBox}>
-        <div style={{width: '100%' ,height: '100%', position: 'relative', borderRadius: '100%'}}>
+        <h2 className={classes.compHeading}> ColorPicker </h2>
+        <div style={{width: '100%' ,height: '80%', position: 'relative', borderRadius: '50%'}}>
           <Saturation
             {...currentColor}
             onChange={ handleColorChangeSaturation }
@@ -67,32 +76,42 @@ export const ColorPicker = (props: props): ReactElement => {
             color={currentColor.hsl}
           />
         </div>
-        <EditableInput
+        <div className={classes.editableColor}>
+          <EditableInput
+            label="hex"
             value={ currentHexColor }
             onChange={ handleColorChange }
-        />
+          />
+        </div>
       </div>
       <div className={classes.colorSettingsContainer} >
-        <div style={{padding: '2%', marginLeft: '10%'}}>
+        <div style={{padding: '2%'}}>
+          <h2 className={classes.compHeading}> PALETTE </h2>
           <CirclePicker
             onChangeComplete={ handleColorChange }
             color={currentHexColor}
             colors ={["#f44336", "#e91e63", "#9c27b0", "#673ab7", "#3f51b5"]}
-            circleSize ={40}
-            width={'400px'}
+            circleSize ={48}
+            width={'500px'}
           />
         </div>
-        <div style={{padding: '1%'}}>
+        <div style={{padding: '2%'}}>
+          <h2 className={classes.compHeading}> GRADIENT </h2>
           <HuePicker
             onChangeComplete={ handleColorChange }
             color={currentHexColor}
           />
-          <EditableInput
-            value={ currentHexColor }
-            onChange={ handleColorChange }
+        </div>
+        <div style={{padding: '2%'}}>
+          <h2 className={classes.compHeading}> BRIGHTNESS </h2>
+          <BrightnessPicker
+            currentBrightness={currentBrightness}
+            handleBrightnessChange={handleBrightnessChange}
           />
         </div>
       </div>
     </div>
   )
 }
+
+

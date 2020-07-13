@@ -1,8 +1,3 @@
-
-.saturation-black {
-  border-radius: 100% !important;
-}
-
-.saturation-white {
-  border-radius: 100% !important;
+.MuiSlider-root {
+  color: #e57373 !important;
 }

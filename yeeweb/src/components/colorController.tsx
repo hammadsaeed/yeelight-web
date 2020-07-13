@@ -1,11 +1,19 @@
 import React, {ReactElement, useState} from 'react';
-import { ColorPicker } from './colorPicker';
-import { BrightnessPicker } from './brightnessController';
-import { toState, toColor } from '../lib/getColor';
+import { ColorPicker } from './colorPicker/';
+import { colorData } from '../index.d'
 import { Button } from '@material-ui/core';
 import { sendComand } from './requests';
 import { makeStyles } from '@material-ui/styles';
 const url = 'http://localhost:8000'
+
+interface IncomingProps {
+  handleColorChange: any,
+  handleColorChangeSaturation:  any,
+  currentHexColor: string,
+  currentColor: colorData,
+  handleBrightnessChange: any,
+  currentBrightness: number,
+}
 
 const useStyles = makeStyles({
   buttonContainer: {
@@ -21,31 +29,11 @@ const useStyles = makeStyles({
 });
 
 
-export const ColorController = (): ReactElement => {
-  const [currentColor, setCurrentColor] = useState(toState('#000000'));
-  const [currentBrightness, setCurrentBrightness] = useState<number>(30);
+export const ColorController = (props: IncomingProps): ReactElement => {
+  const { handleColorChangeSaturation, handleColorChange, currentHexColor, currentColor, handleBrightnessChange, currentBrightness} = props
   const [powerStatus, setCurrentPowerStatus] = useState(false);
-  const [currentHexColor, setCurrentHexColor] = useState('#D8AB62');
+
   const classes = useStyles();
-
-  const handleColorChangeSaturation = (color: any) => {
-    const newColor = toColor(color);
-    setCurrentColor(newColor)
-    setCurrentHexColor(newColor.hex)
-    sendComand(`${url}/changeLight`, newColor.rgb)
-  }
-
-  const handleColorChange = (color: any) => {
-    setCurrentColor(color)
-    setCurrentHexColor(color.hex)
-    sendComand(`${url}/changeLight`, color.rgb)
-  }
-
-  const handleBrightnessChange = (event : any, currentBrightnessSlide: number) => {
-    setCurrentBrightness(currentBrightnessSlide)
-    const status = sendComand(`${url}/setBrightness`, {currentBrightnessSlide});
-    console.log(status)
-  }
 
   const togglePowerState = () => {
     const newStatus = !powerStatus
@@ -62,12 +50,10 @@ export const ColorController = (): ReactElement => {
         currentHexColor={currentHexColor}
         currentColor={currentColor}
         handleColorChangeSaturation={handleColorChangeSaturation}
+        currentBrightness={currentBrightness}
+        handleBrightnessChange={handleBrightnessChange}
       />
       <div className={classes.buttonContainer}>
-        <BrightnessPicker
-          currentBrightness={currentBrightness}
-          handleBrightnessChange={handleBrightnessChange}
-        />
         <Button onClick={togglePowerState} variant="contained" color="primary" > POWER: {powerStatus ? 'ON': 'OFF'} </Button>
       </div>
     </>
