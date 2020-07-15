@@ -7,7 +7,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { makeStyles } from '@material-ui/styles';
 import * as THREE from 'three';
 import LampModel from './lampModel';
-
+import { SvgGlow } from './glowEffect'
 extend({ OrbitControls });
 
 interface IncomingProps {
@@ -69,9 +69,9 @@ export const ThreeModel =  React.memo((props: {currentHexColor: string, currentB
   const {currentHexColor, currentBrightness} = props;
   const classes = useStyles();
   const lightPosition = new THREE.Vector3(0, 0, 1);
-  console.log(currentHexColor)
   return (
     <>
+      {/* <SvgGlow/> */}
       <Canvas
         className={classes.root}
         style={{

@@ -21,3 +21,8 @@ export interface colorData {
   };
   source: string;
 }
+
+
+export interface FlowColor {
+  color: colorData
+}

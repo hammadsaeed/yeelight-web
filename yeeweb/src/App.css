@@ -1,3 +1,6 @@
 .MuiSlider-root {
   color: #e57373 !important;
 }
+.MuiSwitch-colorSecondary.Mui-checked {
+  color: #e57373;
+}

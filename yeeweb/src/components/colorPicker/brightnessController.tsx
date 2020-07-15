@@ -17,14 +17,13 @@ export const BrightnessPicker = (props: props): ReactElement => {
   const classes = useStyles();
 
   const valuetext = () => {
-    console.log()
     return `${currentBrightness}C`;
   }
-
   return (
     <div className={classes.root} style={{padding: '1%'}}>
       <Slider
         defaultValue={0}
+        value={currentBrightness}
         getAriaValueText={valuetext}
         onChange={handleBrightnessChange}
         aria-labelledby="continuous-slider"
