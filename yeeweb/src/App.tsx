@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import { toState, toColor } from './lib/getColor';
+import React, {useState, useEffect, useRef} from 'react';
+import { toState, toColor, toDecimal, decimalColorToHTMLcolor } from './lib/getColor';
 import { sendComand } from './components/requests';
 import { ColorController } from './components/colorController'
 import { Heading } from './components/heading'
@@ -24,15 +24,53 @@ const useStyles = makeStyles({
   }
 });
 
+const initialFlowColor = [
+  {
+    color: toDecimal('#2c9c49')
+  },
+  {
+    color: toDecimal('#00FFE6')
+  },
+  {
+    color: toDecimal('#ffff')
+  },
+  {
+    color: toDecimal('#000')
+  },
+]
+
 function App() {
-  const [currentColor, setCurrentColor] = useState(toState('#00FFE6'));
+  const [currentColor, setCurrentColor] = useState(toDecimal('5844012'));
+  const [colorFlow, setColorFlow] = useState(initialFlowColor)
   const [currentHexColor, setCurrentHexColor] = useState('#00FFE6');
   const [currentBrightness, setCurrentBrightness] = useState<number>(30);
+  const [powerStatus, setCurrentPowerStatus] = useState(false);
+
+  const getInitialData = useRef(false);
+  const handleFlowColorChange = (oldColor: any, newColor: any) => {
+    colorFlow.map((currentColor: any, i: number) => {
+      if(currentColor.color.hex === oldColor.hex) {
+        const newColorSet = colorFlow;
+        newColorSet[i].color = newColor;
+      }
+    })
+  }
+  console.log(colorFlow)
+
 
   const handleColorChange = (color: any) => {
-    setCurrentColor(color)
-    setCurrentHexColor(color.hex)
-    sendComand(`${url}/changeLight`, color.rgb)
+    setCurrentColor(color);
+    setCurrentHexColor(color.hex);
+    console.log(color.rgb);
+    sendComand(`${url}/changeLight`, color.rgb);
+  }
+
+  const togglePowerState = () => {
+    const newStatus = !powerStatus
+    const status = sendComand(`${url}/setPower`, {powerStatus: newStatus});
+    console.log(newStatus)
+    setCurrentPowerStatus(newStatus)
+    console.log(status)
   }
 
   const handleBrightnessChange = (event : any, currentBrightnessSlide: number) => {
@@ -47,11 +85,26 @@ function App() {
     sendComand(`${url}/changeLight`, newColor.rgb)
   }
 
-  // const getStatus = (event : any, currentBrightnessSlide: number) => {
-  //   const body= {parms: 'power'}
-  //   const status = sendComand(`${url}/getStatus`, body);
-  //   console.log(status)
-  // }
+  useEffect(() => {
+    if(!getInitialData.current) {
+      console.log(getInitialData.current)
+      const body= {parms: ['power','bright',"rgb",'ct' ]}
+      sendComand(`${url}/getStatus`, body).then(result => {
+        console.log(result);
+        if(result === undefined) throw new Error('No Resut Found');
+        if(result[1]) setCurrentBrightness(parseInt(result[1]))
+        if(result[0] === 'on') setCurrentPowerStatus(true);
+        if(result[0] === 'off') setCurrentPowerStatus(false);
+        if(result[2]) {
+          const getColor = decimalColorToHTMLcolor(result[2]);
+          console.log(result[2],getColor)
+          setCurrentColor(getColor);
+          setCurrentHexColor(getColor.hex)
+        }
+        getInitialData.current = true;
+      })
+    }
+  })
 
   const classes = useStyles();
   return (
@@ -65,8 +118,9 @@ function App() {
         </div>
 
         <Heading />
-        {/* <button onClick={(e)=> getStatus(e,1)} style={{position: 'absolute', left: '1%'}}> GetStatus </button> */}
-        {/* <img src={logo} className="App-logo" alt="logo" /> */}
+        {/* <button onClick={(e)=> getStatus(e,'power')} style={{position: 'absolute', left: '1%'}}> GetPower </button>
+        <button onClick={(e)=> getStatus(e,'bg_bright')} style={{position: 'absolute', left: '5%'}}> GetBrightness</button> */}
+        {/* <button onClick={(e)=> getStatus(e,['active_mode', 'power','bright',"rgb" ])} style={{position: 'absolute', left: '10%'}}> GetColor </button> */}
         <ColorController
           handleColorChange={handleColorChange}
           handleColorChangeSaturation={handleColorChangeSaturation}
@@ -74,6 +128,10 @@ function App() {
           currentColor={currentColor}
           handleBrightnessChange={handleBrightnessChange}
           currentBrightness={currentBrightness}
+          powerStatus={powerStatus}
+          togglePowerState={togglePowerState}
+          colorFlow={colorFlow}
+          handleFlowColorChange={handleFlowColorChange}
         />
       </div>
   );
