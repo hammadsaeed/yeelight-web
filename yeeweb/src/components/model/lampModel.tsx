@@ -10,9 +10,9 @@ export default (): ReactElement => {
   const newScale3 = new THREE.Vector3(0.035, 0.035, 0.035);
   const newRotation =new THREE.Euler( 1.5708,0, 3.5, 'XYZ');
   const newPosition3 = new THREE.Vector3(5, -3, -1);
-  console.log(gltfModelMine.materials.wire_108008136)
-  console.log(gltfModelMine)
-  console.log(gltfModelMine.nodes)
+  // console.log(gltfModelMine.materials.wire_108008136)
+  // console.log(gltfModelMine)
+  // console.log(gltfModelMine.nodes)
   useFrame((state) => {
     mesh.current.rotation.z += 0.01
   });

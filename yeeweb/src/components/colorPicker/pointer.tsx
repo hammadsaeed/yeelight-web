@@ -2,7 +2,6 @@ import React from 'react'
 
 export const MyPointer = (props: {clientY: number, clientX: number}) => {
   const { clientY, clientX } = props;
-  console.log(clientX, clientY)
   return (
     <div
       style={{
@@ -10,9 +9,12 @@ export const MyPointer = (props: {clientY: number, clientX: number}) => {
         fontSize: 12,
         left: clientX,
         top: clientY,
+        transform: 'translate(-50%)',
       }}
     >
-    💢
+    <span role="img" aria-label="pointer" >
+      💢
+    </span>
     </div>
   )
 }
