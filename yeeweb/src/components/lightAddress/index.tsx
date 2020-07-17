@@ -1,5 +1,9 @@
-import React, {ReactElement} from 'react';
+import React, {ReactElement, useState} from 'react';
 import { makeStyles } from '@material-ui/styles';
+import { ClosedOption } from '../closedOption';
+import { OpenOption } from './openOption';
+
+import { TransitionGroup } from 'react-transition-group';
 
 const useStyles = makeStyles({
   root: {
@@ -9,26 +13,29 @@ const useStyles = makeStyles({
     top: 0,
     left: '2%',
   },
-  heading: {
-    fontSize: '10vw',
-    position: 'relative',
-    margin: 0,
-    top: '10%',
-    left: '10%',
-    fontStyle: 'normal',
-    fontWeight: 500,
-    lineHeight: '10vw',
-    letterSpacing: '10px',
-    color: '#FFFFFF',
-  }
 });
 
-export const IpAddress = (): ReactElement => {
+export const IpAddress = (props: {setOpenState: any, openState: boolean}): ReactElement => {
   const classes = useStyles();
+  const { setOpenState, openState} = props;
+  // const [openState, setOpenState] = useState(false);
+  const handleOnClick = () => {
+    setOpenState(!openState)
+  }
+
+  if(openState) {
+    return(
+      <OpenOption
+        handleOnClick={handleOnClick}
+        openState={openState}
+      />
+    )
+  }
+
   return (
-    <div className={classes.root}>
-      <h1 className={classes.heading}> YeeWeb </h1>
-    </div>
+    <ClosedOption
+      handleOnClick={handleOnClick}
+    />
   )
 }
 
