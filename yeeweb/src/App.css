@@ -4,3 +4,7 @@
 .MuiSwitch-colorSecondary.Mui-checked {
   color: #e57373;
 }
+@keyframes slideUI {
+  0%   {left: 0}
+  100% {left: 50%}
+}

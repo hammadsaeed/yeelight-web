@@ -1,11 +1,13 @@
 import React, {useState, useEffect, useRef} from 'react';
 import { toState, toColor, toDecimal, decimalColorToHTMLcolor } from './lib/getColor';
+import { Slide,Container } from '@material-ui/core';
 import { sendComand } from './components/requests';
 import { ColorController } from './components/colorController'
 import { Heading } from './components/heading'
 import { Background } from './components/background'
 import { makeStyles } from '@material-ui/styles';
 import { ThreeModel } from './components/model/3dModel'
+import { IpAddress } from './components/lightAddress/.'
 import './App.css'
 const url = 'http://localhost:8000'
 
@@ -45,13 +47,14 @@ function App() {
   const [currentHexColor, setCurrentHexColor] = useState('#00FFE6');
   const [currentBrightness, setCurrentBrightness] = useState<number>(30);
   const [powerStatus, setCurrentPowerStatus] = useState(false);
-
+  const [openState, setOpenState] = useState(false);
   const getInitialData = useRef(false);
   const handleFlowColorChange = (oldColor: any, newColor: any) => {
     colorFlow.map((currentColor: any, i: number) => {
       if(currentColor.color.hex === oldColor.hex) {
         const newColorSet = colorFlow;
         newColorSet[i].color = newColor;
+        setColorFlow(newColorSet)
       }
     })
   }
@@ -110,28 +113,32 @@ function App() {
   return (
       <div className={classes.root}>
         <Background/>
-        <div className={classes.lampModel}>
-          <ThreeModel
-            currentHexColor={currentHexColor}
-            currentBrightness={currentBrightness}
-          />
-        </div>
-
-        <Heading />
-        {/* <button onClick={(e)=> getStatus(e,'power')} style={{position: 'absolute', left: '1%'}}> GetPower </button>
-        <button onClick={(e)=> getStatus(e,'bg_bright')} style={{position: 'absolute', left: '5%'}}> GetBrightness</button> */}
-        {/* <button onClick={(e)=> getStatus(e,['active_mode', 'power','bright',"rgb" ])} style={{position: 'absolute', left: '10%'}}> GetColor </button> */}
-        <ColorController
-          handleColorChange={handleColorChange}
-          handleColorChangeSaturation={handleColorChangeSaturation}
-          currentHexColor={currentHexColor}
-          currentColor={currentColor}
-          handleBrightnessChange={handleBrightnessChange}
-          currentBrightness={currentBrightness}
-          powerStatus={powerStatus}
-          togglePowerState={togglePowerState}
-          colorFlow={colorFlow}
-          handleFlowColorChange={handleFlowColorChange}
+              <div className={classes.lampModel}>
+                <ThreeModel
+                  currentHexColor={currentHexColor}
+                  currentBrightness={currentBrightness}
+                />
+              </div>
+              <Heading />
+          {/* <Slide direction="left" in={!openState} mountOnEnter unmountOnExit timeout={600}> */}
+            <Container style={{ position: 'fixed',left: `${!openState ? '2%': '20%'}`,top: '25%', transition: 'left 500ms'}}>
+              <ColorController
+                handleColorChange={handleColorChange}
+                handleColorChangeSaturation={handleColorChangeSaturation}
+                currentHexColor={currentHexColor}
+                currentColor={currentColor}
+                handleBrightnessChange={handleBrightnessChange}
+                currentBrightness={currentBrightness}
+                powerStatus={powerStatus}
+                togglePowerState={togglePowerState}
+                colorFlow={colorFlow}
+                handleFlowColorChange={handleFlowColorChange}
+              />
+            </Container>
+          {/* </Slide> */}
+        <IpAddress
+          setOpenState={setOpenState}
+          openState={openState}
         />
       </div>
   );

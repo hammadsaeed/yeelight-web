@@ -20,7 +20,6 @@ interface props {
 const useStyles = makeStyles({
   root: {
     position: 'absolute',
-    height: '35%',
     top: '25%',
     left: '7%',
     background: '#FEFEFE',
@@ -29,7 +28,8 @@ const useStyles = makeStyles({
     fontFamily: '"HelveticaNeue"',
     letterSpacing: 2,
     border: '3px solid #e57373',
-    padding: '3%',
+    padding: '4%',
+    paddingBottom: '8%',
   },
   compHeading: {
     lineHeight: '0.5vw',
@@ -45,7 +45,6 @@ const useStyles = makeStyles({
   editableColor: {
     padding: '5%',
     textAlign: 'center',
-
   }
 });
 
