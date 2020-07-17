@@ -101,6 +101,22 @@ app.post('/setPower', (req: Request) => {
   });
 });
 
+app.post('/setColorFlow', (req: Request) => {
+  const { r, g, b } = req.body as any;
+  if (r === undefined || g === undefined || b === undefined) throw new Error('No Color Found');
+  console.log(r, g, b);
+  const yeelight = new Yeelight({ lightIp: myDevice.host, lightPort: myDevice.port });
+
+  yeelight.connect().then((light) => {
+    light.setRGB(new Color(r, g, b), 'smooth', 2000).then(() => {
+      light.disconnect();
+      console.log('Color has been set');
+    });
+  }).catch((e) => {
+    console.log(e.message);
+  });
+});
+
 app.post('/discoverLight', (req: Request) => {
   console.log('triggered');
   console.log(req.body);
