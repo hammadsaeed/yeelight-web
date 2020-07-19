@@ -1,6 +1,6 @@
 # yeelight-web
 
-Yeelight web allows users to control thier yeelight throught the we api
+Yeelight web allows users to control their yeelight(s) through the web api
 
 ## Requirements // Installation
 * Nodejs
