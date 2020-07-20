@@ -39,10 +39,10 @@ app.use(cors());
 // });
 
 app.post('/changeLight', (req: Request) => {
-  const { r, g, b } = req.body as any;
-  if (r === undefined || g === undefined || b === undefined) throw new Error('No Color Found');
-  console.log(r, g, b);
-  const yeelight = new Yeelight({ lightIp: myDevice.host, lightPort: myDevice.port });
+  const { ipAddress } = req.body;
+  const { r, g, b } = req.body.rgb;
+  if (r === undefined || g === undefined || b === undefined || ipAddress === undefined) throw new Error('No Color Found');
+  const yeelight = new Yeelight({ lightIp: ipAddress, lightPort: myDevice.port });
 
   yeelight.connect().then((light) => {
     light.setRGB(new Color(r, g, b), 'smooth', 2000).then(() => {
@@ -55,7 +55,7 @@ app.post('/changeLight', (req: Request) => {
 });
 
 app.post('/getStatus', (req: Request, response: Response) => {
-  const { parms } = req.body as any;
+  const { parms } = req.body;
   if (parms === undefined) throw new Error('No Color Found');
   const yeelight = new Yeelight({ lightIp: myDevice.host, lightPort: myDevice.port });
   yeelight.connect().then((light) => {
@@ -72,10 +72,9 @@ app.post('/getStatus', (req: Request, response: Response) => {
 });
 
 app.post('/setBrightness', (req: Request) => {
-  console.log(req.body);
-  const { currentBrightnessSlide } = req.body as any;
-  if (currentBrightnessSlide === undefined) throw new Error('No Color Found');
-  const yeelight = new Yeelight({ lightIp: myDevice.host, lightPort: myDevice.port });
+  const { currentBrightnessSlide, ipAddress } = req.body;
+  if (currentBrightnessSlide === undefined || ipAddress === undefined) throw new Error('No Color Found');
+  const yeelight = new Yeelight({ lightIp: ipAddress, lightPort: myDevice.port });
   yeelight.connect().then((light) => {
     light.setBright(parseInt(currentBrightnessSlide, 10), 'smooth', 500).then(() => {
       light.disconnect();
@@ -87,10 +86,9 @@ app.post('/setBrightness', (req: Request) => {
 });
 
 app.post('/setPower', (req: Request) => {
-  console.log(req.body);
-  const { powerStatus } = req.body as any;
-  if (powerStatus === undefined) throw new Error('No Color Found');
-  const yeelight = new Yeelight({ lightIp: myDevice.host, lightPort: myDevice.port });
+  const { powerStatus, ipAddress } = req.body;
+  if (powerStatus === undefined || ipAddress === undefined) throw new Error('No Color Found');
+  const yeelight = new Yeelight({ lightIp: ipAddress, lightPort: myDevice.port });
   yeelight.connect().then((light) => {
     light.setPower(powerStatus, 'smooth', 500).then(() => {
       light.disconnect();
@@ -102,9 +100,8 @@ app.post('/setPower', (req: Request) => {
 });
 
 app.post('/setColorFlow', (req: Request) => {
-  const { r, g, b } = req.body as any;
+  const { r, g, b } = req.body;
   if (r === undefined || g === undefined || b === undefined) throw new Error('No Color Found');
-  console.log(r, g, b);
   const yeelight = new Yeelight({ lightIp: myDevice.host, lightPort: myDevice.port });
 
   yeelight.connect().then((light) => {
