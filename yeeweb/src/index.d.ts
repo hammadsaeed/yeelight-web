@@ -26,3 +26,9 @@ export interface colorData {
 export interface FlowColor {
   color: colorData
 }
+
+export interface LightData {
+  IpAddress: string,
+  Name: string,
+  lightSelected: boolean,
+}
