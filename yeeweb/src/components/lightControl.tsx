@@ -1,8 +1,7 @@
-import React, {ReactElement, useState} from 'react';
-import { colorData, FlowColor } from '../index.d'
-import { CirclePicker, HuePicker } from 'react-color';
+import React, {ReactElement} from 'react';
+import { FlowColor } from '../index.d'
 import { CircleButton } from './colorButton';
-import { Button, Grid, Switch } from '@material-ui/core';
+import {  Grid, Switch } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
 interface IncomingProps {
@@ -16,7 +15,7 @@ const useStyles = makeStyles({
   buttonContainer: {
     position: 'fixed',
     height: '15%',
-    bottom: '3%',
+    bottom: '10%',
     left: '7%',
     background: '#FEFEFE',
     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
@@ -74,9 +73,9 @@ export const LightControl = (props: IncomingProps): ReactElement => {
             <Grid item className={classes.flowContainer}>
               <h1 className={classes.compHeading}> Flow </h1>
                 <Grid container spacing={1} direction='row' className={classes.flowButton}>
-                  {colorFlow.map((x: FlowColor) => {
+                  {colorFlow.map((x: FlowColor, i: number) => {
                       return (
-                        <Grid item>
+                        <Grid item key={`flowId: ${i}`}>
                           <CircleButton
                             colorFlow={x}
                             handleFlowColorChange={handleFlowColorChange}
