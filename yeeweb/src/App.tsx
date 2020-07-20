@@ -136,7 +136,6 @@ function App() {
     setCurrentHexColor(newColor.hex)
     const { rgb } = newColor
     sendComand(`${url}/changeLight`, {rgb: rgb, ipAddress: currentIP});
-    // sendComand(`${url}/changeLight`, {newColor.rgb, , ipAddress: currentIP})
   }
 
   useEffect(() => {
