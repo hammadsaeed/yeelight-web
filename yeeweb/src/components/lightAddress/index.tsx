@@ -1,24 +1,17 @@
-import React, {ReactElement, useState} from 'react';
-import { makeStyles } from '@material-ui/styles';
+import React, {ReactElement} from 'react';
+import { LightData } from '../../index.d'
 import { ClosedOption } from '../closedOption';
 import { OpenOption } from './openOption';
 
-import { TransitionGroup } from 'react-transition-group';
+interface IncomingProps {
+  setOpenState: any,
+  openState: boolean,
+  lightDataState: LightData[],
+  setLightDataState: Function,
+}
 
-const useStyles = makeStyles({
-  root: {
-    position: 'absolute',
-    width: '50%',
-    height: '40%',
-    top: 0,
-    left: '2%',
-  },
-});
-
-export const IpAddress = (props: {setOpenState: any, openState: boolean}): ReactElement => {
-  const classes = useStyles();
-  const { setOpenState, openState} = props;
-  // const [openState, setOpenState] = useState(false);
+export const IpAddress = (props: IncomingProps): ReactElement => {
+  const { setOpenState, openState, lightDataState, setLightDataState} = props;
   const handleOnClick = () => {
     setOpenState(!openState)
   }
@@ -28,6 +21,8 @@ export const IpAddress = (props: {setOpenState: any, openState: boolean}): React
       <OpenOption
         handleOnClick={handleOnClick}
         openState={openState}
+        setLightDataState={setLightDataState}
+        lightDataState={lightDataState}
       />
     )
   }

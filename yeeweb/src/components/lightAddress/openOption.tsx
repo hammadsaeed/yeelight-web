@@ -1,5 +1,6 @@
 import React, {ReactElement,useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
+import { LightData } from '../../index.d'
 import { Slide, ListItem, ListItemIcon, Checkbox,Button, ListItemText, ListItemSecondaryAction,FormControl,TextField,AccordionDetails,AccordionSummary,Accordion, Typography,Radio,FormControlLabel } from '@material-ui/core';
 
 const useStyles = makeStyles({
@@ -67,28 +68,6 @@ const useStyles = makeStyles({
   },
 });
 
-interface LightInfo {
-  IpAddress: string,
-  Name: string,
-}
-
-const LightData = [
-  {
-    IpAddress: '192.168.1.2',
-    Name: 'Living Room',
-    lightSelected: false,
-  },
-  {
-    IpAddress: '192.168.1.32',
-    Name: 'Bed Room',
-    lightSelected: false,
-  },
-  {
-    IpAddress: '192.168.1.4',
-    Name: 'TV Room',
-    lightSelected: false,
-  },
-]
 
 const IconPlace = (iconProps: {handlePanelChange: Function, index: number, isExpanded: number}) => {
   const classes = useStyles();
@@ -110,13 +89,21 @@ const CloseIcon = () => {
   )
 }
 
+interface IncomingProps {
+  handleOnClick: any,
+  openState: boolean,
+  lightDataState: LightData[],
+  setLightDataState: Function,
+}
 
-export const OpenOption = (props: {handleOnClick: any, openState: boolean}): ReactElement => {
+export const OpenOption = (props: IncomingProps): ReactElement => {
   const classes = useStyles();
   const  [currentState, setCurrentState ] = useState(false)
   const [isExpanded, setIsExpanded] = useState(0);
-  const { handleOnClick, openState } = props;
+  const { handleOnClick, openState, lightDataState, setLightDataState } = props;
   const [ isClosed, setIsClosing ] = useState(true);
+  const [ ipChange, setIpChange ] = useState('');
+  const [ lightNameChange, setLightNameChange ] = useState('');
 
   const delayOnClick = () => {
     setIsClosing(false)
@@ -124,14 +111,41 @@ export const OpenOption = (props: {handleOnClick: any, openState: boolean}): Rea
       handleOnClick()
     },620)
   }
-  const handleRadioOnClick = () => {
-    setCurrentState(!currentState)
-  }
+  // const handleRadioOnClick = () => {
+  //   setCurrentState(!currentState)
+  // }
 
   const handlePanelChange = (panelNumber: number) => {
-    console.log(panelNumber)
     setIsExpanded(panelNumber)
   };
+
+  const handleIPChange = (event: any) => {
+    setIpChange(event.target.value);
+  }
+
+  const handleLightNameChange = (event: any) => {
+    setLightNameChange(event.target.value);
+  }
+
+  const handleRadioClick = (index: number) => {
+    const oldIpData = lightDataState;
+    for (let i=0; i< oldIpData.length; i++) {
+      if(oldIpData[i].lightSelected) {
+        oldIpData[i].lightSelected = false;
+      }
+      if(i === index) oldIpData[i].lightSelected = true;
+    }
+    setLightDataState(oldIpData)
+  }
+
+  const handleChangeOnSubmit = (index: number) => {
+    const oldIpData = lightDataState;
+    if(lightNameChange !== '') oldIpData[index].Name = lightNameChange;
+    if(ipChange !== '') oldIpData[index].IpAddress = ipChange;
+    setLightDataState(oldIpData)
+    setIsExpanded(0)
+  }
+
 
   return (
     <div className={classes.mainContainer}>
@@ -141,7 +155,7 @@ export const OpenOption = (props: {handleOnClick: any, openState: boolean}): Rea
             Lights
           </Typography>
       <div className={classes.listContainer}>
-        {LightData.map((light: LightInfo, i: number) => {
+        {lightDataState.map((light: LightData, i: number) => {
           return(
             <Accordion expanded={isExpanded === i+1} onChange={() => handlePanelChange(i+1)}>
               <AccordionSummary
@@ -162,8 +176,8 @@ export const OpenOption = (props: {handleOnClick: any, openState: boolean}): Rea
                   control=
                     {
                       <Radio
-                        checked={currentState}
-                        onClick={handleRadioOnClick}
+                        checked={light.lightSelected}
+                        onClick={() => handleRadioClick(i)}
                       />
                     }
                   label={light.Name}
@@ -177,23 +191,21 @@ export const OpenOption = (props: {handleOnClick: any, openState: boolean}): Rea
                     style={{ margin: 2, width: '100%' }}
                     fullWidth
                     margin="normal"
-
+                    onChange={handleLightNameChange}
                   />
                   <TextField
                     id="standard-full-width"
                     label={`IP-Address: ${light.IpAddress}`}
+                    onChange={handleIPChange}
                     style={{ margin: 2 }}
                     fullWidth
                     margin="normal"
                   />
                   <div className={classes.closeButton}>
-                    <Button variant="contained" size="medium" className={classes.buttonClose} color="inherit" onClick={() => handlePanelChange(0)}>
+                    <Button variant="contained" size="medium" className={classes.buttonClose} color="inherit" onClick={() => handleChangeOnSubmit(i)}>
                       Done
                     </Button>
                   </div>
-                  {/* <Button variant="contained" size="small" className={classes.buttonClose} color="inherit" onClick={handleOnClick}>
-                    Done
-                  </Button> */}
                 </FormControl>
               </AccordionDetails>
           </Accordion>

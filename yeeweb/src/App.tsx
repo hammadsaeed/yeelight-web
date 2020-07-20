@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import { toState, toColor, toDecimal, decimalColorToHTMLcolor } from './lib/getColor';
 import { Slide,Container } from '@material-ui/core';
+import useStateWithLocalStorage from './lib/localStorage';
 import { sendComand } from './components/requests';
 import { ColorController } from './components/colorController'
 import { Heading } from './components/heading'
@@ -26,6 +27,25 @@ const useStyles = makeStyles({
   }
 });
 
+
+const LightData = [
+  {
+    IpAddress: '192.168.1.2',
+    Name: 'Living Room',
+    lightSelected: false,
+  },
+  {
+    IpAddress: '192.168.1.32',
+    Name: 'Bed Room',
+    lightSelected: false,
+  },
+  {
+    IpAddress: '192.168.1.4',
+    Name: 'TV Room',
+    lightSelected: false,
+  },
+]
+
 const initialFlowColor = [
   {
     color: toDecimal('#2c9c49')
@@ -49,6 +69,37 @@ function App() {
   const [powerStatus, setCurrentPowerStatus] = useState(false);
   const [openState, setOpenState] = useState(false);
   const getInitialData = useRef(false);
+
+
+  const [ lightIPData, setLightIPData] = useStateWithLocalStorage('lightData');
+  const [ lightDataState, setLightDataState ] = useState();
+  const [currentIP, setCurrentIP] = useState()
+
+  const setIPAddress = (newIpSettings: any) => {
+    newIpSettings.map((lightDetails: any) => {
+      if(lightDetails.lightSelected) {
+        setCurrentIP(lightDetails.IpAddress)
+      }
+    })
+  }
+
+
+  useEffect(() => {
+    if(lightIPData === '') {
+      setLightIPData(JSON.stringify(LightData));
+      setLightDataState(LightData)
+    }
+    if(lightIPData) {
+      setLightDataState(JSON.parse(lightIPData))
+      setIPAddress(JSON.parse(lightIPData))
+    }
+  }, [lightIPData, setLightIPData]);
+
+  const handleIpConfigChange = (newIpSettings: any) => {
+    setLightDataState(newIpSettings);
+    setLightIPData(JSON.stringify(newIpSettings))
+  }
+
   const handleFlowColorChange = (oldColor: any, newColor: any) => {
     colorFlow.map((currentColor: any, i: number) => {
       if(currentColor.color.hex === oldColor.hex) {
@@ -58,39 +109,38 @@ function App() {
       }
     })
   }
-  console.log(colorFlow)
 
 
   const handleColorChange = (color: any) => {
     setCurrentColor(color);
     setCurrentHexColor(color.hex);
-    console.log(color.rgb);
-    sendComand(`${url}/changeLight`, color.rgb);
+    const { rgb } = color
+    sendComand(`${url}/changeLight`, {rgb: rgb, ipAddress: currentIP});
   }
 
   const togglePowerState = () => {
     const newStatus = !powerStatus
-    const status = sendComand(`${url}/setPower`, {powerStatus: newStatus});
-    console.log(newStatus)
+    const status = sendComand(`${url}/setPower`, {powerStatus: newStatus, ipAddress: currentIP});
     setCurrentPowerStatus(newStatus)
     console.log(status)
   }
 
   const handleBrightnessChange = (event : any, currentBrightnessSlide: number) => {
     setCurrentBrightness(currentBrightnessSlide)
-    const status = sendComand(`${url}/setBrightness`, {currentBrightnessSlide});
+    const status = sendComand(`${url}/setBrightness`, {currentBrightnessSlide, ipAddress: currentIP} );
     console.log(status)
   }
   const handleColorChangeSaturation = (color: any) => {
     const newColor = toColor(color);
     setCurrentColor(newColor)
     setCurrentHexColor(newColor.hex)
-    sendComand(`${url}/changeLight`, newColor.rgb)
+    const { rgb } = newColor
+    sendComand(`${url}/changeLight`, {rgb: rgb, ipAddress: currentIP});
+    // sendComand(`${url}/changeLight`, {newColor.rgb, , ipAddress: currentIP})
   }
 
   useEffect(() => {
     if(!getInitialData.current) {
-      console.log(getInitialData.current)
       const body= {parms: ['power','bright',"rgb",'ct' ]}
       sendComand(`${url}/getStatus`, body).then(result => {
         console.log(result);
@@ -100,7 +150,6 @@ function App() {
         if(result[0] === 'off') setCurrentPowerStatus(false);
         if(result[2]) {
           const getColor = decimalColorToHTMLcolor(result[2]);
-          console.log(result[2],getColor)
           setCurrentColor(getColor);
           setCurrentHexColor(getColor.hex)
         }
@@ -139,6 +188,8 @@ function App() {
         <IpAddress
           setOpenState={setOpenState}
           openState={openState}
+          lightDataState={lightDataState}
+          setLightDataState={handleIpConfigChange}
         />
       </div>
   );
