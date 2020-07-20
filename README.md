@@ -18,7 +18,7 @@ npm install
 npm run start:watch
 ```
 
-* now open the web directory in another cmd, install packages and run the node app
+* now open the web directory in another terminal window, install packages and run the node app
 ```
 cd yeeweb
 npm install
