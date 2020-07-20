@@ -55,9 +55,9 @@ app.post('/changeLight', (req: Request) => {
 });
 
 app.post('/getStatus', (req: Request, response: Response) => {
-  const { parms } = req.body;
+  const { parms, ipAddress } = req.body;
   if (parms === undefined) throw new Error('No Color Found');
-  const yeelight = new Yeelight({ lightIp: myDevice.host, lightPort: myDevice.port });
+  const yeelight = new Yeelight({ lightIp: ipAddress, lightPort: myDevice.port });
   yeelight.connect().then((light) => {
     light.getProperty(parms).then((data) => {
       response.send(data.result.result);
