@@ -103,18 +103,18 @@ export const ThreeModel =  React.memo((props: {currentHexColor: string, currentB
           position: 'fixed',
         }}
       >
-        <directionalLight
+        {/* <directionalLight
           intensity={0.5}
           position={lightPosition}
-        />
+        /> */}
         <CameraControls />
-        {/* <directionalLight
+        <directionalLight
           intensity={0.4}
           position={lightPosition}
           castShadow
           // color={currentHexColor}
-        /> */}
-        {/* <ambientLight intensity={currentBrightness > 10 ? (currentBrightness/100) / 2 : 0.1} color={currentHexColor}/> */}
+        />
+        <ambientLight intensity={currentBrightness > 10 ? (currentBrightness/100) / 2 : 0.1} color={currentHexColor}/>
         <Suspense fallback={<Loading />}>
           <LampModel />
           {/* <Loading /> */}

@@ -140,7 +140,6 @@ function App() {
 
   useEffect(() => {
     if(!getInitialData.current) {
-      const body= {parms: ['power','bright',"rgb",'ct' ]}
       sendComand(`${url}/getStatus`, {parms: ['power','bright',"rgb",'ct' ], ipAddress: currentIP}).then(result => {
         console.log(result);
         if(result === undefined) throw new Error('No Resut Found');

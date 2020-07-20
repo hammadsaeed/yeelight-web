@@ -10,14 +10,14 @@ export default (): ReactElement => {
   const newScale3 = new THREE.Vector3(0.040, 0.040, 0.040);
   const newRotation =new THREE.Euler( 1.5708,0, 3.5, 'XYZ');
   const newPosition3 = new THREE.Vector3(4, -3, -0.5);
-  const newMaterial = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
-  console.log(gltfModelMine)
-  console.log(gltfModelMine.materials)
-  console.log(gltfModelMine.materials.wire_154185229)
+  // const newMaterial = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
+  // console.log(gltfModelMine)
+  // console.log(gltfModelMine.materials)
+  // console.log(gltfModelMine.materials.wire_154185229)
   // console.log(gltfModelMine.nodes)
-  // useFrame((state) => {
-  //   mesh.current.rotation.z += 0.01
-  // });
+  useFrame((state) => {
+    mesh.current.rotation.z += 0.01
+  });
   return (
     <group ref={group}>
       {/* <mesh
