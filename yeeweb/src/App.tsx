@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
-import { toState, toColor, toDecimal, decimalColorToHTMLcolor } from './lib/getColor';
-import { Slide,Container } from '@material-ui/core';
+import { toDecimal, decimalColorToHTMLcolor } from './lib/getColor';
+import { Container } from '@material-ui/core';
 import useStateWithLocalStorage from './lib/localStorage';
 import { sendComand } from './components/requests';
 import { ColorController } from './components/colorController'
@@ -76,7 +76,7 @@ function App() {
   const [currentIP, setCurrentIP] = useState()
 
   const setIPAddress = (newIpSettings: any) => {
-    newIpSettings.map((lightDetails: any) => {
+    newIpSettings.forEach((lightDetails: any) => {
       if(lightDetails.lightSelected) {
         setCurrentIP(lightDetails.IpAddress)
       }
@@ -101,7 +101,7 @@ function App() {
   }
 
   const handleFlowColorChange = (oldColor: any, newColor: any) => {
-    colorFlow.map((currentColor: any, i: number) => {
+    colorFlow.forEach((currentColor: any, i: number) => {
       if(currentColor.color.hex === oldColor.hex) {
         const newColorSet = colorFlow;
         newColorSet[i].color = newColor;
@@ -131,7 +131,7 @@ function App() {
     console.log(status)
   }
   const handleColorChangeSaturation = (color: any) => {
-    const newColor = toColor(color);
+    const newColor = toDecimal(color);
     setCurrentColor(newColor)
     setCurrentHexColor(newColor.hex)
     const { rgb } = newColor
@@ -141,7 +141,7 @@ function App() {
   useEffect(() => {
     if(!getInitialData.current) {
       const body= {parms: ['power','bright',"rgb",'ct' ]}
-      sendComand(`${url}/getStatus`, body).then(result => {
+      sendComand(`${url}/getStatus`, {parms: ['power','bright',"rgb",'ct' ], ipAddress: currentIP}).then(result => {
         console.log(result);
         if(result === undefined) throw new Error('No Resut Found');
         if(result[1]) setCurrentBrightness(parseInt(result[1]))
@@ -169,7 +169,7 @@ function App() {
               </div>
               <Heading />
           {/* <Slide direction="left" in={!openState} mountOnEnter unmountOnExit timeout={600}> */}
-            <Container style={{ position: 'fixed',left: `${!openState ? '2%': '20%'}`,top: '25%', transition: 'left 500ms'}}>
+            <Container style={{ position: 'fixed',left: `${!openState ? '2%': '20%'}`,top: '12vw', transition: 'left 300ms'}}>
               <ColorController
                 handleColorChange={handleColorChange}
                 handleColorChangeSaturation={handleColorChangeSaturation}
