@@ -137,9 +137,8 @@ function App() {
     const { rgb } = newColor
     sendComand(`${url}/changeLight`, {rgb: rgb, ipAddress: currentIP});
   }
-
+   useEffect(() => {
     if(!getInitialData.current && currentIP !== '') {
-
       sendComand(`${url}/getStatus`, {parms: ['power','bright',"rgb",'ct' ], ipAddress: currentIP}).then(result => {
         console.log(result);
         if(result === undefined) throw new Error('No Resut Found');

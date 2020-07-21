@@ -15,7 +15,6 @@ const useStyles = makeStyles({
     backgroundColor: '#fefefe',
     border: '3px solid #e57373',
     opacity: 1,
-    minWidth: '300px',
   },
   mainContainer: {
     position: 'relative',
