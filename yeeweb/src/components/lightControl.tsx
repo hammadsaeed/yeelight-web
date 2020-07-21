@@ -14,9 +14,10 @@ interface IncomingProps {
 const useStyles = makeStyles({
   buttonContainer: {
     position: 'fixed',
-    height: '15%',
-    bottom: '10%',
-    left: '7%',
+    height: '17%',
+    minHeight: '120px',
+    bottom: '3vw',
+    left: '6.5%',
     background: '#FEFEFE',
     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
     borderRadius: '50px',
@@ -24,7 +25,7 @@ const useStyles = makeStyles({
     border: '3px solid #e57373'
   },
   itemContainer: {
-    padding: '1%',
+    padding: '2%',
     width: '40vh',
     display: 'flex',
     alignItems: 'center',
@@ -56,9 +57,9 @@ export const LightControl = (props: IncomingProps): ReactElement => {
   const classes = useStyles();
 
   return (
-      <div className={classes.buttonContainer}>
-        <Grid item xs={12}>
-          <Grid container spacing={4} direction='column'>
+      <div >
+        <Grid item xs={11} className={classes.buttonContainer}>
+          <Grid container spacing={2} direction='column' >
             <Grid item className={classes.itemContainer}>
                 <h1 className={classes.compHeading}> Power </h1>
                 <div>
@@ -70,12 +71,12 @@ export const LightControl = (props: IncomingProps): ReactElement => {
                   />
                 </div>
             </Grid>
-            <Grid item className={classes.flowContainer}>
-              <h1 className={classes.compHeading}> Flow </h1>
-                <Grid container spacing={1} direction='row' className={classes.flowButton}>
+            <Grid item className={classes.flowContainer} style={{height: '50px'}}>
+              <h1 className={classes.compHeading} > Flow </h1>
+                <Grid container spacing={1} direction='row' className={classes.flowButton} style={{height: 'fit-content'}}>
                   {colorFlow.map((x: FlowColor, i: number) => {
                       return (
-                        <Grid item key={`flowId: ${i}`}>
+                        <Grid item key={`flowId: ${i}`} style={{height: 'fit-content'}}>
                           <CircleButton
                             colorFlow={x}
                             handleFlowColorChange={handleFlowColorChange}

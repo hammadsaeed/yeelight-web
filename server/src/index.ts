@@ -7,8 +7,6 @@ import express, {
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import {
-  Discover,
-  IDevice,
   Color,
   Yeelight,
 } from 'yeelight-awesome';
@@ -99,33 +97,33 @@ app.post('/setPower', (req: Request) => {
   });
 });
 
-app.post('/setColorFlow', (req: Request) => {
-  const { r, g, b } = req.body;
-  if (r === undefined || g === undefined || b === undefined) throw new Error('No Color Found');
-  const yeelight = new Yeelight({ lightIp: myDevice.host, lightPort: myDevice.port });
+// app.post('/setColorFlow', (req: Request) => {
+//   const { r, g, b } = req.body;
+//   if (r === undefined || g === undefined || b === undefined) throw new Error('No Color Found');
+//   const yeelight = new Yeelight({ lightIp: myDevice.host, lightPort: myDevice.port });
 
-  yeelight.connect().then((light) => {
-    light.setRGB(new Color(r, g, b), 'smooth', 2000).then(() => {
-      light.disconnect();
-      console.log('Color has been set');
-    });
-  }).catch((e) => {
-    console.log(e.message);
-  });
-});
+//   yeelight.connect().then((light) => {
+//     light.setRGB(new Color(r, g, b), 'smooth', 2000).then(() => {
+//       light.disconnect();
+//       console.log('Color has been set');
+//     });
+//   }).catch((e) => {
+//     console.log(e.message);
+//   });
+// });
 
-app.post('/discoverLight', (req: Request) => {
-  console.log('triggered');
-  console.log(req.body);
+// app.post('/discoverLight', (req: Request) => {
+//   console.log('triggered');
+//   console.log(req.body);
 
-  const discover = new Discover({});
+//   const discover = new Discover({});
 
-  discover.scanByIp().then((devices) => console.log('scan finished: ', devices));
+//   discover.scanByIp().then((devices) => console.log('scan finished: ', devices));
 
-  discover.on('deviceAdded', (device: IDevice) => {
-    console.log('found device', device);
-  });
-});
+//   discover.on('deviceAdded', (device: IDevice) => {
+//     console.log('found device', device);
+//   });
+// });
 
 const port = process.env.PORT ?? 8000;
 

@@ -7,7 +7,7 @@ const useStyles = makeStyles({
   root: {
     position: 'absolute',
     left: 0,
-    top: '20%',
+    top: '10vw',
     width: '20%',
     minWidth: '250px',
     borderBottomRightRadius: '10%',
@@ -15,6 +15,7 @@ const useStyles = makeStyles({
     backgroundColor: '#fefefe',
     border: '3px solid #e57373',
     opacity: 1,
+    minWidth: '300px',
   },
   mainContainer: {
     position: 'relative',
