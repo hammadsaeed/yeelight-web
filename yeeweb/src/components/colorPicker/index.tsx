@@ -20,7 +20,7 @@ interface props {
 const useStyles = makeStyles({
   root: {
     position: 'absolute',
-    left: '7%',
+    left: '5vw',
     background: '#FEFEFE',
     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
     borderRadius: '50px',
@@ -45,10 +45,14 @@ const useStyles = makeStyles({
     color: '#444444',
   },
   editableColor: {
-    padding: '5%',
+    padding: '2%',
     textAlign: 'center',
   }
 });
+
+const scaling = {
+  width:  window.innerWidth > 700 ? '350px': '250px',
+};
 
 export const ColorPicker = (props: props): ReactElement => {
   const {
@@ -62,11 +66,11 @@ export const ColorPicker = (props: props): ReactElement => {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      <Grid container xs={6} lg={12} justify="center" spacing={2}>
-          <Grid item lg={6} style={{height: '16vw', marginTop: '-3%', minHeight: '250px'}}>
+    <div >
+      <Grid container xs={11} lg={8} justify="center" spacing={2} className={classes.root}>
+          <Grid item xs={6} lg={6} style={{height: '18vw', width: '20vw',marginTop: '-2%', minHeight: '280px', minWidth: '300px'}}>
             <h1 className={classes.colorHeading}> ColorPicker </h1>
-            <div style={{width: '100%' ,height: '90%', minHeight: '200px' ,position: 'relative', borderRadius: '50%'}}>
+            <div style={{width: '100%' ,height: '90%', minHeight: '200px',position: 'relative', borderRadius: '50%'}}>
               <Saturation
                 {...currentColor}
                 onChange={ handleColorChangeSaturation }
@@ -82,15 +86,15 @@ export const ColorPicker = (props: props): ReactElement => {
               />
             </div>
           </Grid>
-          <Grid item xs={6} lg={4} style={{ minHeight: '250px'}}>
+          <Grid item xs={6} lg={4} style={{ minHeight: '250px', marginTop: '6%', minWidth: '300px'}}>
               <div style={{padding: '2%'}}>
                 <h2 className={classes.compHeading}> PALETTE </h2>
                 <CirclePicker
                   onChangeComplete={ handleColorChange }
                   color={currentHexColor}
                   colors ={toMonochromatic(currentHexColor)}
-                  circleSize ={48}
-                  width={'500px'}
+                  circleSize ={36}
+                  width={scaling.width}
                 />
               </div>
               <div style={{padding: '2%'}}>
@@ -98,6 +102,7 @@ export const ColorPicker = (props: props): ReactElement => {
                 <HuePicker
                   onChangeComplete={ handleColorChange }
                   color={currentHexColor}
+                  width={'250px'}
                 />
               </div>
               <div style={{padding: '2%'}}>

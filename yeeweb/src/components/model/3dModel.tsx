@@ -90,11 +90,10 @@ export const ThreeModel =  React.memo((props: {currentHexColor: string, currentB
   const {currentHexColor, currentBrightness} = props;
   const rendercount = useRef(0)
   const classes = useStyles();
-  const lightPosition = new THREE.Vector3(0, 1, 1);
-  console.log('render', rendercount.current +=1)
+  const lightPosition = new THREE.Vector3(4, -1, 60);
+
   return (
     <>
-      {/* <SvgGlow/> */}
       <Canvas
         className={classes.root}
         style={{
@@ -109,12 +108,18 @@ export const ThreeModel =  React.memo((props: {currentHexColor: string, currentB
         /> */}
         <CameraControls />
         <directionalLight
-          intensity={0.4}
+          intensity={0.3}
+          position={lightPosition}
+        />
+        {/* <directionalLight
+          intensity={0.5}
           position={lightPosition}
           castShadow
           // color={currentHexColor}
-        />
-        <ambientLight intensity={currentBrightness > 10 ? (currentBrightness/100) / 2 : 0.1} color={currentHexColor}/>
+          color='yellow'
+        /> */}
+
+        {/* <ambientLight intensity={currentBrightness > 10 ? (currentBrightness/100) / 2 : 0.1} color='blue'/> */}
         <Suspense fallback={<Loading />}>
           <LampModel />
           {/* <Loading /> */}

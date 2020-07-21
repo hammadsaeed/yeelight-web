@@ -13,7 +13,7 @@ const useStyles = makeStyles({
     fontSize: '10vw',
     position: 'relative',
     margin: 0,
-    top: '10%',
+    top: '1vw',
     left: '10%',
     fontStyle: 'normal',
     fontWeight: 500,

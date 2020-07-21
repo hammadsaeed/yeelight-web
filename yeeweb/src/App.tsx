@@ -61,6 +61,7 @@ const initialFlowColor = [
   },
 ]
 
+
 function App() {
   const [currentColor, setCurrentColor] = useState(toDecimal('5844012'));
   const [colorFlow, setColorFlow] = useState(initialFlowColor)
@@ -70,10 +71,9 @@ function App() {
   const [openState, setOpenState] = useState(false);
   const getInitialData = useRef(false);
 
-
   const [ lightIPData, setLightIPData] = useStateWithLocalStorage('lightData');
   const [ lightDataState, setLightDataState ] = useState();
-  const [currentIP, setCurrentIP] = useState()
+  const [currentIP, setCurrentIP] = useState('')
 
   const setIPAddress = (newIpSettings: any) => {
     newIpSettings.forEach((lightDetails: any) => {
@@ -137,9 +137,8 @@ function App() {
     const { rgb } = newColor
     sendComand(`${url}/changeLight`, {rgb: rgb, ipAddress: currentIP});
   }
-
-  useEffect(() => {
-    if(!getInitialData.current) {
+   useEffect(() => {
+    if(!getInitialData.current && currentIP !== '') {
       sendComand(`${url}/getStatus`, {parms: ['power','bright',"rgb",'ct' ], ipAddress: currentIP}).then(result => {
         console.log(result);
         if(result === undefined) throw new Error('No Resut Found');
@@ -168,7 +167,7 @@ function App() {
               </div>
               <Heading />
           {/* <Slide direction="left" in={!openState} mountOnEnter unmountOnExit timeout={600}> */}
-            <Container style={{ position: 'fixed',left: `${!openState ? '2%': '20%'}`,top: '12vw', transition: 'left 300ms'}}>
+            <Container style={{ position: 'fixed',left: `${!openState ? '2%': '15vw'}`,top: '12vw', transition: 'left 300ms'}}>
               <ColorController
                 handleColorChange={handleColorChange}
                 handleColorChangeSaturation={handleColorChangeSaturation}
