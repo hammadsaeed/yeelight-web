@@ -1,8 +1,7 @@
-import React, {ReactElement, useState} from 'react';
-import { colorData, FlowColor } from '../index.d'
-import { CirclePicker, HuePicker } from 'react-color';
+import React, {ReactElement} from 'react';
+import { FlowColor } from '../index.d'
 import { CircleButton } from './colorButton';
-import { Button, Grid, Switch } from '@material-ui/core';
+import {  Grid, Switch } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
 interface IncomingProps {

@@ -10,6 +10,7 @@ const useStyles = makeStyles({
     width: '4vw',
     minHeight: '40px',
     minWidth: '30px',
+
     borderTopLeftRadius: '120%',
     borderTopRightRadius: '120%',
     backgroundColor: '#fefefe',

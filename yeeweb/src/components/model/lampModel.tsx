@@ -12,6 +12,7 @@ export default (): ReactElement => {
   const newRotation =new THREE.Euler( 1.5708,0, 3.5, 'XYZ');
   const newPosition3 = new THREE.Vector3(4.5, -3, -1);
   console.log(gltfModelMine)
+
   // console.log(gltfModelMine.materials)
   // console.log(gltfModelMine.materials.wire_154185229)
   // console.log(gltfModelMine.nodes)

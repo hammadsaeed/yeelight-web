@@ -9,6 +9,7 @@ const useStyles = makeStyles({
     left: 0,
     top: '10vw',
     width: '20%',
+    minWidth: '250px',
     borderBottomRightRadius: '10%',
     borderTopRightRadius: '10%',
     backgroundColor: '#fefefe',
@@ -71,7 +72,6 @@ const useStyles = makeStyles({
 
 const IconPlace = (iconProps: {handlePanelChange: Function, index: number, isExpanded: number}) => {
   const classes = useStyles();
-  const {handlePanelChange, index, isExpanded} = iconProps;
   return (
     <span role="img" aria-label="pointer" className={classes.openIcon}>
       >
@@ -79,15 +79,6 @@ const IconPlace = (iconProps: {handlePanelChange: Function, index: number, isExp
   )
 }
 
-
-const CloseIcon = () => {
-  const classes = useStyles();
-  return (
-    <span role="img" aria-label="pointer" className={classes.closeIcon} >
-      X
-    </span>
-  )
-}
 
 interface IncomingProps {
   handleOnClick: any,
@@ -98,9 +89,8 @@ interface IncomingProps {
 
 export const OpenOption = (props: IncomingProps): ReactElement => {
   const classes = useStyles();
-  const  [currentState, setCurrentState ] = useState(false)
   const [isExpanded, setIsExpanded] = useState(0);
-  const { handleOnClick, openState, lightDataState, setLightDataState } = props;
+  const { handleOnClick, lightDataState, setLightDataState } = props;
   const [ isClosed, setIsClosing ] = useState(true);
   const [ ipChange, setIpChange ] = useState('');
   const [ lightNameChange, setLightNameChange ] = useState('');
@@ -225,24 +215,3 @@ export const OpenOption = (props: IncomingProps): ReactElement => {
   )
 }
 export default OpenOption;
-
-{/* <div className={classes.listContainer}>
-            <ListItem key={1} role={undefined} dense button onClick={handleOnClick}>
-              <ListItemIcon>
-                <Radio
-                  edge="start"
-                  checked={currentState}
-                  onClick={handleRadioOnClick}
-                  // tabIndex={-1}
-                  disableRipple
-                  inputProps={{ 'aria-labelledby': 'label' }}
-                />
-              </ListItemIcon>
-              <ListItemText id={'label'} primary={`Line item 1`} />
-              <ListItemSecondaryAction>
-                <IconButton edge="end" aria-label="comments" onClick={handleOnClick}>
-                  ✖️
-                </IconButton>
-              </ListItemSecondaryAction>
-            </ListItem>
-          </div> */}

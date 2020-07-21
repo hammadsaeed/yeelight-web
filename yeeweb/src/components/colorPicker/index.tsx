@@ -27,8 +27,11 @@ const useStyles = makeStyles({
     fontFamily: '"HelveticaNeue"',
     letterSpacing: 2,
     border: '3px solid #e57373',
-    padding: '4%',
-    paddingBottom: '8%',
+    padding: '2%',
+    paddingLeft: 0,
+    paddingRight: '4%',
+    paddingBottom: '4%',
+    minHeight: '300px',
   },
   compHeading: {
     lineHeight: '0.5vw',

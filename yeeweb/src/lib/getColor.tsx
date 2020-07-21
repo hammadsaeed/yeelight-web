@@ -49,17 +49,13 @@ export const toMonochromatic = (data: string): string[]=> {
 export const decimalColorToHTMLcolor = (number: number) => {
   let intnumber = number - 0;
 
-  const red = (intnumber&0x0000ff) << 16;
-  const green = intnumber&0x00ff00;
-  const blue = (intnumber&0xff0000) >>> 16;
+  const red = (intnumber & 0xff0000) >> 16;
+  const green = (intnumber & 0x00ff00) >> 8;
+  const blue = (intnumber & 0x0000ff);
 
-  intnumber = blue|red|green;
-
-  let HTMLcolor = intnumber.toString(16);
-  const last2 = HTMLcolor.slice(-2);
-  const newHTMLColor = HTMLcolor.substring(0,6 - 2 );
-  const toHex = `#${last2}${newHTMLColor}`
-  return toState(toHex)
+  const toString= `rgb(${red},${green},${blue})`
+  console.log(toString)
+  return toState(toString)
 }
 
 export const toColor = (data: string) => {
