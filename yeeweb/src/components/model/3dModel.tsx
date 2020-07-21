@@ -68,10 +68,9 @@ const Loading = (): ReactElement => (
 export const ThreeModel =  React.memo((props: {currentHexColor: string, currentBrightness: number}): ReactElement => {
   const {currentHexColor, currentBrightness} = props;
   const classes = useStyles();
-  const lightPosition = new THREE.Vector3(0, 0, 1);
+  const lightPosition = new THREE.Vector3(4, -1, 60);
   return (
     <>
-      {/* <SvgGlow/> */}
       <Canvas
         className={classes.root}
         style={{
@@ -81,12 +80,18 @@ export const ThreeModel =  React.memo((props: {currentHexColor: string, currentB
         }}
       >
         <directionalLight
-          intensity={1}
+          intensity={0.3}
+          position={lightPosition}
+        />
+        {/* <directionalLight
+          intensity={0.5}
           position={lightPosition}
           castShadow
-          color={currentHexColor}
-        />
-        <ambientLight intensity={currentBrightness > 10 ? (currentBrightness/100) / 2 : 0.1} color={currentHexColor}/>
+          // color={currentHexColor}
+          color='yellow'
+        /> */}
+
+        {/* <ambientLight intensity={currentBrightness > 10 ? (currentBrightness/100) / 2 : 0.1} color='blue'/> */}
         <Suspense fallback={<Loading />}>
           <LampModel />
         </Suspense>

@@ -61,6 +61,7 @@ const initialFlowColor = [
   },
 ]
 
+
 function App() {
   const [currentColor, setCurrentColor] = useState(toDecimal('5844012'));
   const [colorFlow, setColorFlow] = useState(initialFlowColor)
@@ -70,10 +71,9 @@ function App() {
   const [openState, setOpenState] = useState(false);
   const getInitialData = useRef(false);
 
-
   const [ lightIPData, setLightIPData] = useStateWithLocalStorage('lightData');
   const [ lightDataState, setLightDataState ] = useState();
-  const [currentIP, setCurrentIP] = useState()
+  const [currentIP, setCurrentIP] = useState('')
 
   const setIPAddress = (newIpSettings: any) => {
     newIpSettings.map((lightDetails: any) => {
@@ -139,9 +139,8 @@ function App() {
   }
 
   useEffect(() => {
-    if(!getInitialData.current) {
-      const body= {parms: ['power','bright',"rgb",'ct' ]}
-      sendComand(`${url}/getStatus`, body).then(result => {
+    if(!getInitialData.current && currentIP !== '') {
+      sendComand(`${url}/getStatus`, {parms: ['power','bright',"rgb",'ct' ], ipAddress: currentIP}).then(result => {
         console.log(result);
         if(result === undefined) throw new Error('No Resut Found');
         if(result[1]) setCurrentBrightness(parseInt(result[1]))
@@ -169,7 +168,7 @@ function App() {
               </div>
               <Heading />
           {/* <Slide direction="left" in={!openState} mountOnEnter unmountOnExit timeout={600}> */}
-            <Container style={{ position: 'fixed',left: `${!openState ? '2%': '20%'}`,top: '25%', transition: 'left 500ms'}}>
+            <Container style={{ position: 'fixed',left: `${!openState ? '2%': '15vw'}`,top: '12vw', transition: 'left 300ms'}}>
               <ColorController
                 handleColorChange={handleColorChange}
                 handleColorChangeSaturation={handleColorChangeSaturation}

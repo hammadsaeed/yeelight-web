@@ -2,8 +2,6 @@ import React, {ReactElement} from 'react';
 import { ColorPicker } from './colorPicker/';
 import { colorData, FlowColor } from '../index.d'
 import { LightControl } from './lightControl'
-import { makeStyles } from '@material-ui/styles';
-const url = 'http://localhost:8000'
 
 interface IncomingProps {
   handleColorChange: any,

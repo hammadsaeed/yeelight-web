@@ -11,8 +11,8 @@ const useStyles = makeStyles({
     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
     display: 'inline-block',
     cursor: 'pointer',
-    width: '3vw',
-    height: '3vw',
+    width: '5vh',
+    height: '5vh',
     borderRadius: '50%',
   },
   colorDisplay: {

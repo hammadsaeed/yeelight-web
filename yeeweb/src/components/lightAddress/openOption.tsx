@@ -1,20 +1,20 @@
 import React, {ReactElement,useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { LightData } from '../../index.d'
-import { Slide, ListItem, ListItemIcon, Checkbox,Button, ListItemText, ListItemSecondaryAction,FormControl,TextField,AccordionDetails,AccordionSummary,Accordion, Typography,Radio,FormControlLabel } from '@material-ui/core';
+import { Slide, Button, FormControl,TextField,AccordionDetails,AccordionSummary,Accordion, Typography,Radio,FormControlLabel } from '@material-ui/core';
 
 const useStyles = makeStyles({
   root: {
     position: 'absolute',
     left: 0,
-    top: '20%',
-    // height: '50%',
+    top: '10vw',
     width: '20%',
     borderBottomRightRadius: '10%',
     borderTopRightRadius: '10%',
     backgroundColor: '#fefefe',
     border: '3px solid #e57373',
     opacity: 1,
+    minWidth: '300px',
   },
   mainContainer: {
     position: 'relative',
