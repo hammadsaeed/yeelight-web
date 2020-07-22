@@ -10,7 +10,8 @@ import { makeStyles } from '@material-ui/styles';
 import { ThreeModel } from './components/model/3dModel'
 import { IpAddress } from './components/lightAddress/.'
 import './App.css'
-const url = 'http://localhost:8000'
+
+const url =window.location.href.replace("3000/", "8000");
 
 const useStyles = makeStyles({
   root: {
@@ -157,38 +158,40 @@ function App() {
 
   const classes = useStyles();
   return (
-      <div className={classes.root}>
-        <Background/>
-              <div className={classes.lampModel}>
-                <ThreeModel
-                  currentHexColor={currentHexColor}
-                  currentBrightness={currentBrightness}
-                />
-              </div>
-              <Heading />
-          {/* <Slide direction="left" in={!openState} mountOnEnter unmountOnExit timeout={600}> */}
-            <Container style={{ position: 'fixed',left: `${!openState ? '2%': '15vw'}`,top: '12vw', transition: 'left 300ms'}}>
-              <ColorController
-                handleColorChange={handleColorChange}
-                handleColorChangeSaturation={handleColorChangeSaturation}
-                currentHexColor={currentHexColor}
-                currentColor={currentColor}
-                handleBrightnessChange={handleBrightnessChange}
-                currentBrightness={currentBrightness}
-                powerStatus={powerStatus}
-                togglePowerState={togglePowerState}
-                colorFlow={colorFlow}
-                handleFlowColorChange={handleFlowColorChange}
-              />
-            </Container>
-          {/* </Slide> */}
-        <IpAddress
-          setOpenState={setOpenState}
-          openState={openState}
-          lightDataState={lightDataState}
-          setLightDataState={handleIpConfigChange}
+    <div className={classes.root}>
+      <Background/>
+      { window.innerWidth > 700 && 
+        <div className={classes.lampModel}>
+          <ThreeModel
+            currentHexColor={currentHexColor}
+            currentBrightness={currentBrightness}
+          />
+        </div>
+      }
+      <Heading />
+  {/* <Slide direction="left" in={!openState} mountOnEnter unmountOnExit timeout={600}> */}
+      <Container style={{ position: 'fixed',left: `${!openState ? '2%': '15vw'}`,top: '12vw', transition: 'left 300ms'}}>
+        <ColorController
+          handleColorChange={handleColorChange}
+          handleColorChangeSaturation={handleColorChangeSaturation}
+          currentHexColor={currentHexColor}
+          currentColor={currentColor}
+          handleBrightnessChange={handleBrightnessChange}
+          currentBrightness={currentBrightness}
+          powerStatus={powerStatus}
+          togglePowerState={togglePowerState}
+          colorFlow={colorFlow}
+          handleFlowColorChange={handleFlowColorChange}
         />
-      </div>
+      </Container>
+  {/* </Slide> */}
+      <IpAddress
+        setOpenState={setOpenState}
+        openState={openState}
+        lightDataState={lightDataState}
+        setLightDataState={handleIpConfigChange}
+      />
+    </div>
   );
 }
 
