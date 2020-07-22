@@ -32,6 +32,11 @@ const useStyles = makeStyles({
     paddingRight: '4%',
     paddingBottom: '4%',
     // minHeight: '300px',
+    ['@media (max-width:780px)']: { // eslint-disable-line no-useless-computed-key
+      border: '1px solid #e57373',
+      borderRadius: '30px',
+
+    }
   },
   compHeading: {
     lineHeight: '0.5vw',
@@ -68,9 +73,9 @@ export const ColorPicker = (props: props): ReactElement => {
   return (
     <div >
       <Grid container xs={11} lg={8} justify="center" spacing={2} className={classes.root}>
-          <Grid item xs={6} lg={6} style={{height: '18vw', width: '20vw',marginTop: '-2%', minHeight: '250px', minWidth: '300px'}}>
+          <Grid item xs={6} lg={6} style={{height: '18vw', width: '20vw',marginTop: '-2%', minHeight: '250px', minWidth: '250px'}}>
             <h1 className={classes.colorHeading}> ColorPicker </h1>
-            <div style={{width: '100%' ,height: '90%', minHeight: '200px',position: 'relative', borderRadius: '50%'}}>
+            <div style={{width: '100%' ,height: '80%', minHeight: '180px',position: 'relative', borderRadius: '50%'}}>
               <Saturation
                 {...currentColor}
                 onChange={ handleColorChangeSaturation }
