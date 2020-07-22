@@ -10,8 +10,8 @@ import { makeStyles } from '@material-ui/styles';
 import { ThreeModel } from './components/model/3dModel'
 import { IpAddress } from './components/lightAddress/.'
 import './App.css'
+
 const url =window.location.href.replace("3000/", "8000");
-console.log(url);
 
 const useStyles = makeStyles({
   root: {
