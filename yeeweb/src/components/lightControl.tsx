@@ -16,13 +16,21 @@ const useStyles = makeStyles({
     position: 'fixed',
     height: '17%',
     minHeight: '120px',
-    bottom: '3vw',
+    bottom: '4vw',
     left: '6.5%',
     background: '#FEFEFE',
     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
     borderRadius: '50px',
-    padding: '2%',
-    border: '3px solid #e57373'
+    padding: '1%',
+    border: '3px solid #e57373',
+    ['@media (max-width:780px)']: { // eslint-disable-line no-useless-computed-key
+      bottom: '0',
+      padding: '2%',
+      left: '5vw',
+      borderRadius: '30px',
+      border: '1px solid #e57373',
+      minWidth: '380px',
+    }
   },
   itemContainer: {
     padding: '2%',
@@ -58,9 +66,9 @@ export const LightControl = (props: IncomingProps): ReactElement => {
 
   return (
       <div >
-        <Grid item xs={11} className={classes.buttonContainer}>
-          <Grid container spacing={2} direction='column' >
-            <Grid item className={classes.itemContainer}>
+        <Grid item xs={12} className={classes.buttonContainer}>
+          <Grid container spacing={1} direction='column' >
+            <Grid item xs={12} className={classes.itemContainer}>
                 <h1 className={classes.compHeading}> Power </h1>
                 <div>
                   <Switch
